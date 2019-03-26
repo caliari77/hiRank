@@ -27,7 +27,7 @@ public class NavigationUtil {
         return htmlElement.getByXPath("class='" + className + "'");
     }
 
-    public static List<HtmlElement> findHtmlElementByCriteria(HtmlElement htmlElement, String criteria) {
+    public static <T> List<T> findHtmlElementByCriteria(HtmlElement htmlElement, String criteria) {
         return htmlElement.getByXPath(criteria);
     }
 }
