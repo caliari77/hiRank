@@ -28,11 +28,10 @@ dependencies {
 	//Postgres
 	implementation 'org.postgresql:postgresql:42.2.5.jre7'
 	
-	//HtmlUnit
-	compile group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.34.1'
+
 
 	//Logger
 	implementation 'log4j:log4j:1.2.17'
-	
-	
+
+
 }
