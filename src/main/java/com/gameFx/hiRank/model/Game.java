@@ -7,8 +7,8 @@ import javax.persistence.*;
 public class Game {
 
     @Id
-    @GeneratedValue
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
 
     @ManyToMany
@@ -17,11 +17,11 @@ public class Game {
     @OneToOne
     private Rank rank;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -6,27 +6,30 @@ import javax.persistence.*;
 public class Rank {
 
     @Id
-    @GeneratedValue
-    private String id;
-    private Integer rankLevel;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private Integer level;
+
+    @Enumerated(EnumType.STRING)
+    private RankFormat rankFormat;
 
     @OneToOne
     private Game game;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getRankLevel() {
-        return rankLevel;
+    public Integer getLevel() {
+        return level;
     }
 
-    public void setRankLevel(Integer rankLevel) {
-        this.rankLevel = rankLevel;
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public Game getGame() {
