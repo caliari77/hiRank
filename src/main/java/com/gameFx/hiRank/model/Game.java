@@ -2,27 +2,47 @@ package com.gameFx.hiRank.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long gameId;
     private String name;
-
-    @ManyToMany
-    private Genre genre;
-
     @OneToOne
+    //@JoinColumn(name = "rankId")
     private Rank rank;
 
+    //@ManyToMany
+    //@JoinColumn(name = "genreId")
+    @ManyToMany(mappedBy = "genreId")
+    private List<Genre> genre;
+
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
+    }
+
+    public List<Genre> getGenre() {
+        return genre;
+    }
+
+    public void setGenre(List<Genre> genre) {
+        this.genre = genre;
+    }
+
     public Long getId() {
-        return id;
+        return gameId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        gameId = id;
     }
 
     public String getName() {
@@ -32,7 +52,6 @@ public class Game {
     public void setName(String name) {
         this.name = name;
     }
-
 
 
     public Rank getRank() {

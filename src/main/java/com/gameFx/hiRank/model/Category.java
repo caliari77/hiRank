@@ -1,24 +1,27 @@
 package com.gameFx.hiRank.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "categoryId")
+    private Long categoryId;
     private String name;
 
     @ManyToOne
-    private Genre genre;
+    @JoinColumn(name = "genreId")
+    private List<Genre> genre;
 
     public Long getId() {
-        return id;
+        return categoryId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        categoryId = id;
     }
 
     public String getName() {
@@ -29,11 +32,19 @@ public class Category {
         this.name = name;
     }
 
-    public Genre getGenre() {
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public List<Genre> getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(List<Genre> genre) {
         this.genre = genre;
     }
 }
