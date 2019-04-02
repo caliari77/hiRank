@@ -16,8 +16,9 @@ public class Game {
     private Rank rank;
 
     //@ManyToMany
-    //@JoinColumn(name = "genreId")
-    @ManyToMany(mappedBy = "genreId")
+
+    @ManyToMany
+    @JoinColumn(name = "genreId", insertable = false, updatable = false)
     private List<Genre> genre;
 
 

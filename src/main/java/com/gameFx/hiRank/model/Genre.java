@@ -3,6 +3,7 @@ package com.gameFx.hiRank.model;
 import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Genre {
  
     @Id
@@ -21,13 +22,6 @@ public class Genre {
     //@JoinColumn(name = "categoryId")
     private List<Category> category;
 
-    public Long getId() {
-        return genreId;
-    }
-
-    public void setId(Long id) {
-        genreId = id;
-    }
 
     public String getName() {
         return name;

@@ -7,7 +7,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "categoryId")
+    //@Column(name = "categoryId")
     private Long categoryId;
     private String name;
 
