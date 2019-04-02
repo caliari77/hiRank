@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 public class Genre {
-
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "genreId")
@@ -19,7 +19,7 @@ public class Genre {
     @OneToMany(mappedBy = "categoryId")
     //@OneToMany
     //@JoinColumn(name = "categoryId")
-    private Category category;
+    private List<Category> category;
 
     public Long getId() {
         return genreId;
@@ -53,11 +53,11 @@ public class Genre {
         this.game = game;
     }
 
-    public Category getCategory() {
+    public List<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(List<Category> category) {
         this.category = category;
     }
 }

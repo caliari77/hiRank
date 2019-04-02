@@ -1,7 +1,6 @@
 package com.gameFx.hiRank.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Category {
@@ -14,7 +13,7 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "genreId")
-    private List<Genre> genre;
+    private Genre genre;
 
     public Long getId() {
         return categoryId;
@@ -40,11 +39,11 @@ public class Category {
         this.categoryId = categoryId;
     }
 
-    public List<Genre> getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(List<Genre> genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 }
