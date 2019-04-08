@@ -19,15 +19,6 @@ import static com.gameFx.hiRank.bean.ConfigurationConstants.*;
 @EnableTransactionManagement
 public class HibernateConf {
 
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//        sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setPackagesToScan(ENTITY_PACKAGE);
-//        sessionFactory.setHibernateProperties(hibernateProperties());
-//        return sessionFactory;
-//    }
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -37,13 +28,6 @@ public class HibernateConf {
         dataSource.setPassword(DB_PASSWORD);
         return dataSource;
     }
-
-//    @Bean
-//    public HibernateTransactionManager getTransactionManager() {
-//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(sessionFactory().getObject());
-//        return transactionManager;
-//    }
 
     @Bean
     public EntityManagerFactory entityManagerFactory() {

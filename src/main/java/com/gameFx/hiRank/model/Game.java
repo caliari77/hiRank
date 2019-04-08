@@ -11,11 +11,8 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long gameId;
     private String name;
-    @OneToOne
-    //@JoinColumn(name = "rankId")
+    @OneToOne(cascade=CascadeType.ALL)
     private Rank rank;
-
-    //@ManyToMany
 
     @ManyToMany
     @JoinColumn(name = "genreId", insertable = false, updatable = false)
@@ -36,14 +33,6 @@ public class Game {
 
     public void setGenre(List<Genre> genre) {
         this.genre = genre;
-    }
-
-    public Long getId() {
-        return gameId;
-    }
-
-    public void setId(Long id) {
-        gameId = id;
     }
 
     public String getName() {

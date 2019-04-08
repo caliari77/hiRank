@@ -1,6 +1,8 @@
 package com.gameFx.hiRank.modelTest;
 
 import com.gameFx.hiRank.model.Game;
+import com.gameFx.hiRank.model.Rank;
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -27,17 +30,35 @@ public class GameRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
     private Game game;
+    private Rank rank;
+
 
     @Before
     public void setup() {
         game = new Game();
-        game.setName(GAME_NAME);
+        rank = new Rank();
     }
 
     @Test
-    public void saveGame_shouldPersist() {
+    public void setGameNameAndPersistGame_shouldPersist() {
+        game.setName(GAME_NAME);
         Game savedGame = entityManager.persistAndFlush(game);
+        assertTrue(savedGame.getGameId()!=null);
         assertThat(savedGame.getName(), equalTo(GAME_NAME));
+    }
+
+    @Test
+    public void setRankLevelAndPersistGame_shouldPersist() {
+        Integer rankLevel = 10;
+        rank.setLevel(rankLevel);
+        game.setRank(rank);
+
+
+        Game savedGame = entityManager.persistAndFlush(game);
+        Rank savedRank = savedGame.getRank();
+
+        assertThat(savedRank.getLevel(), equalTo(rankLevel));
+        assertTrue(savedRank.getId()!=null);
     }
 
     @After

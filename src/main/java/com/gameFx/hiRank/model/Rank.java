@@ -13,9 +13,6 @@ public class Rank {
     @Enumerated(EnumType.STRING)
     private RankFormat rankFormat;
 
-    @OneToOne
-    private Game game;
-
     public Long getId() {
         return id;
     }
@@ -32,11 +29,4 @@ public class Rank {
         this.level = level;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
 }
