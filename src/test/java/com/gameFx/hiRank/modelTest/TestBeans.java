@@ -1,5 +1,6 @@
-package com.gameFx.hiRank.bean;
+package com.gameFx.hiRank.modelTest;
 
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -17,18 +18,15 @@ import static com.gameFx.hiRank.bean.ConfigurationConstants.*;
 
 @Configuration
 @EnableTransactionManagement
-public class HibernateConf {
 
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//        sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setPackagesToScan(ENTITY_PACKAGE);
-//        sessionFactory.setHibernateProperties(hibernateProperties());
-//        return sessionFactory;
-//    }
+public class TestBeans {
 
     @Bean
+    public TestEntityManager testEntityManager() {
+        return new TestEntityManager(entityManagerFactory());
+    }
+
+
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(DB_DRIVER);
@@ -37,13 +35,6 @@ public class HibernateConf {
         dataSource.setPassword(DB_PASSWORD);
         return dataSource;
     }
-
-//    @Bean
-//    public HibernateTransactionManager getTransactionManager() {
-//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(sessionFactory().getObject());
-//        return transactionManager;
-//    }
 
     @Bean
     public EntityManagerFactory entityManagerFactory() {
