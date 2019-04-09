@@ -39,12 +39,12 @@ public class Genre {
         this.genreId = genreId;
     }
 
-    public List<Game> getGame() {
+    public List<Game> getGameList() {
         return game;
     }
 
-    public void setGame(List<Game> game) {
-        this.game = game;
+    public void addGameToList(Game game) {
+        this.game.add(game);
     }
 
     public List<Category> getCategory() {
