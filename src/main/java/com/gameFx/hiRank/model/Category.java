@@ -31,14 +31,6 @@ public class Category {
         this.name = name;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public Genre getGenre() {
         return genre;
     }

@@ -14,8 +14,11 @@ public class Game {
     @OneToOne(cascade=CascadeType.ALL)
     private Rank rank;
 
-    @ManyToMany
-    @JoinColumn(name = "genreId", insertable = false, updatable = false)
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name = "genreId",
+            insertable = false,
+            updatable = false,
+            unique = true)
     private List<Genre> genre;
 
 

@@ -1,10 +1,6 @@
 package com.gameFx.hiRank.modelTest;
 
-import com.gameFx.hiRank.model.Game;
-import com.gameFx.hiRank.model.Genre;
-import com.gameFx.hiRank.model.Rank;
-import org.hamcrest.Matcher;
-import org.junit.After;
+import com.gameFx.hiRank.model.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -28,6 +27,8 @@ public class GameRepositoryTest {
 
     private static final String GAME_NAME = "gameName";
     private static final String GENRE_NAME = "genreName";
+    private static final String CATEGORY_NAME = "categoryName";
+    private static final Integer RANK_LEVEL = 10;
 
 
     @Autowired
@@ -35,12 +36,14 @@ public class GameRepositoryTest {
     private Game game;
     private Rank rank;
     private Genre genre;
+    private Category category;
 
     @Before
     public void setup() {
         game = new Game();
         rank = new Rank();
         genre = new Genre();
+        category = new Category();
     }
 
     @Test
@@ -54,21 +57,57 @@ public class GameRepositoryTest {
 
     @Test
     public void setRankLevelAndPersistGame_shouldPersist() {
-        Integer rankLevel = 10;
-        rank.setLevel(rankLevel);
+        rank.setRankFormat(RankFormat.ZERO_TO_TEN);
+        rank.setLevel(RANK_LEVEL);
         game.setRank(rank);
 
         Game savedGame = entityManager.persistAndFlush(game);
         Rank savedRank = savedGame.getRank();
 
         assertTrue(savedRank.getId()!=null);
-        assertThat(savedRank.getLevel(), equalTo(rankLevel));
+        assertThat(savedRank.getLevel(), equalTo(RANK_LEVEL));
+        assertThat(savedRank.getRankFormat(), equalTo(RankFormat.ZERO_TO_TEN));
     }
 
+    @Test
+    public void setGenreAndPersistGame_shouldPersist(){
+        genre.setCategory(Arrays.asList(new Category()));
+        genre.setName(GENRE_NAME);
+        game.setGenre(Arrays.asList(genre));
 
+        Game savedGame = entityManager.persistAndFlush(game);
+        Genre savedGenre = savedGame.getGenre()
+                .stream()
+                .findAny()
+                .orElse(new Genre());
 
-    @After
-    public void tearDown() {
-        entityManager.clear();
+        assertThat(savedGenre.getName(), equalTo(GENRE_NAME));
+        assertTrue(savedGenre.getCategory() != null);
     }
+
+    @Test
+    public void setCategoryAndPersistGame_shouldPersist(){
+        category.setName(CATEGORY_NAME);
+        category.setGenre(genre);
+
+        genre.setCategory(Arrays.asList(category));
+        game.setGenre(Arrays.asList(genre));
+
+        Game savedGame = entityManager.persistAndFlush(game);
+
+        List<Category> savedCategoryList = savedGame.getGenre()
+                .stream()
+                .findAny()
+                .orElse(new Genre())
+                .getCategory();
+
+        Category savedCategory = savedCategoryList
+                .stream()
+                .findAny()
+                .orElse(new Category());
+
+        assertTrue(savedCategory != null);
+        assertThat(savedCategory.getName(), equalTo(CATEGORY_NAME));
+    }
+
 }

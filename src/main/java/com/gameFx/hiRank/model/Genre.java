@@ -12,14 +12,11 @@ public class Genre {
     private Long genreId;
     private String name;
 
-    //@ManyToMany(mappedBy = "gameId")
     @ManyToMany
     @JoinColumn(name = "gameId")
     private List<Game> game;
 
     @OneToMany(mappedBy = "categoryId")
-    //@OneToMany
-    //@JoinColumn(name = "categoryId")
     private List<Category> category;
 
 
