@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
 
 import static com.gameFx.hiRank.bean.ConfigurationConstants.*;
 
@@ -51,12 +50,14 @@ public class HibernateConf {
         return txManager;
     }
 
-    private Properties hibernateProperties() {
-        Properties properties = new Properties();
-        properties.put(HIBERNATE_DIALECT, DB_DIALECT);
-        properties.put(SHOW_SQL, SHOW_SQL);
-        properties.put(FORMAT_SQL, FORMAT_SQL);
-        properties.setProperty(HIBERNATE_HBM2DLL_AUTO, UPDATE);
-        return properties;
-    }
+//    @Bean
+//    public Properties hibernateProperties() {
+//        Properties properties = new Properties();
+//        properties.put(HIBERNATE_DIALECT, DB_DIALECT);
+//        properties.put(SHOW_SQL, SHOW_SQL);
+//        properties.put(FORMAT_SQL, FORMAT_SQL);
+//        properties.setProperty(HIBERNATE_HBM2DLL_AUTO, UPDATE);
+//        properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
+//        return properties;
+//    }
 }

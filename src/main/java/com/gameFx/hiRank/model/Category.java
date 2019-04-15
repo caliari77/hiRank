@@ -7,7 +7,6 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //@Column(name = "categoryId")
     private Long categoryId;
     private String name;
 
@@ -38,4 +37,27 @@ public class Category {
     public void setGenre(Genre genre) {
         this.genre = genre;
     }
+
+    public class Builder{
+        private Category category;
+
+        public Builder create(){
+            category = new Category();
+            return this;
+        }
+
+        public Builder withName(String name){
+            category.setName(name);
+            return this;
+        }
+
+        public Builder withGenre(Genre genre){
+            category.setGenre(genre);
+
+            return this;
+        }
+
+
+    }
+
 }

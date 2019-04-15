@@ -2,51 +2,50 @@ package com.gameFx.hiRank.dao;
 
 import com.gameFx.hiRank.model.Game;
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Component
+@Configurable
+@Transactional
 public class GamePopulator implements DataPopulator{
 
-    @Autowired
-    GameRepository gr;
+    Logger log = Logger.getLogger(GamePopulator.class);
 
-    private static final String FILE_NAME_FOR_GAMELIST = "./oldButGold.json";
+    @Autowired
+    private GameRepository gr;
+
+    private String FILE_NAME_FOR_GAMELIST = "./oldButGold.json";
 
     @Override
     public void populate() {
-        loadGameFromJson().stream().map(gr::save);
+        List<Game> a = loadGameFromJson();
+        a.stream().map(gr::save);
     }
 
     private List<Game> loadGameFromJson(){
         return Arrays.asList(new Gson().fromJson(readFile(FILE_NAME_FOR_GAMELIST), Game[].class));
     }
 
-    private String readFile(String filePath){
-        Path path = null;
-        try {
-            path = Paths.get(getClass().getClassLoader()
-                    .getResource(filePath).toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    private String readFile(String fileName){
+        String data = "";
 
-        Stream<String> lines = null;
-        try {
-            lines = Files.lines(path);
+        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+            data = stream.collect(Collectors.joining());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String data = lines.collect(Collectors.joining("\n"));
-        lines.close();
         return data;
     }
 

@@ -10,9 +10,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+
+
 public class ExportDataPopulatorJson {
     public static void main(String args[]){
-        Game game = new Game();
         Rank rank = new Rank();
         Genre genre1 = new Genre();
 
@@ -27,11 +28,14 @@ public class ExportDataPopulatorJson {
         rank.setLevel(10);
         rank.setRankFormat(RankFormat.ZERO_TO_TEN);
 
-        game.setName("Doom");
-        game.setGenre(Arrays.asList(genre1));
-        game.setRank(rank);
+        Game game = new Game.GameBuilder()
+                .create()
+                .withName("Doom")
+                .withGenre(Arrays.asList(genre1))
+                .withRank(rank)
+                .build();
 
-        writeFile(new Gson().toJson(game));
+        writeFile(new Gson().toJson(Arrays.asList(game)));
     }
 
     private static void writeFile(String jsonAsString){
