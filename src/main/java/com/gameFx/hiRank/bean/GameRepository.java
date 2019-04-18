@@ -1,4 +1,4 @@
-package com.gameFx.hiRank.dao;
+package com.gameFx.hiRank.bean;
 
 import com.gameFx.hiRank.model.Game;
 import org.springframework.data.jpa.repository.JpaRepository;

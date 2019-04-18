@@ -2,6 +2,7 @@ package com.gameFx.hiRank.bean;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
 import static com.gameFx.hiRank.bean.ConfigurationConstants.*;
 
 @Configuration
+@EnableJpaRepositories
 @EnableTransactionManagement
 public class HibernateConf {
 
@@ -49,15 +51,4 @@ public class HibernateConf {
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
     }
-
-//    @Bean
-//    public Properties hibernateProperties() {
-//        Properties properties = new Properties();
-//        properties.put(HIBERNATE_DIALECT, DB_DIALECT);
-//        properties.put(SHOW_SQL, SHOW_SQL);
-//        properties.put(FORMAT_SQL, FORMAT_SQL);
-//        properties.setProperty(HIBERNATE_HBM2DLL_AUTO, UPDATE);
-//        properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
-//        return properties;
-//    }
 }

@@ -1,5 +1,6 @@
 package com.gameFx.hiRank.dao;
 
+import com.gameFx.hiRank.bean.GameRepository;
 import com.gameFx.hiRank.model.Game;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
@@ -18,8 +19,8 @@ import java.util.stream.Stream;
 
 @Component
 @Configurable
-@Transactional
-public class GamePopulator implements DataPopulator{
+
+public class GamePopulator implements DataPopulator {
 
     Logger log = Logger.getLogger(GamePopulator.class);
 
@@ -29,16 +30,16 @@ public class GamePopulator implements DataPopulator{
     private String FILE_NAME_FOR_GAMELIST = "./oldButGold.json";
 
     @Override
+    @Transactional
     public void populate() {
-        List<Game> a = loadGameFromJson();
-        a.stream().map(gr::save);
+        loadGameFromJson().stream().forEach(gr::save);
     }
 
-    private List<Game> loadGameFromJson(){
+    private List<Game> loadGameFromJson() {
         return Arrays.asList(new Gson().fromJson(readFile(FILE_NAME_FOR_GAMELIST), Game[].class));
     }
 
-    private String readFile(String fileName){
+    private String readFile(String fileName) {
         String data = "";
 
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
@@ -48,5 +49,6 @@ public class GamePopulator implements DataPopulator{
         }
         return data;
     }
-
 }
+
+

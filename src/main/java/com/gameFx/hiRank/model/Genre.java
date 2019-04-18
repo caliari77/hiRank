@@ -1,11 +1,12 @@
 package com.gameFx.hiRank.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Genre {
- 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "genreId")
@@ -14,10 +15,10 @@ public class Genre {
 
     @ManyToMany
     @JoinColumn(name = "gameId")
-    private List<Game> game;
+    private List<Game> gameList;
 
     @OneToMany(mappedBy = "categoryId")
-    private List<Category> category;
+    private List<Category> categoryList;
 
 
     public String getName() {
@@ -37,20 +38,62 @@ public class Genre {
     }
 
     public List<Game> getGameList() {
-        return game;
+        return gameList;
     }
 
     public void addGameToList(Game game) {
-        this.game.add(game);
+        if (gameList == null) {
+            gameList = new ArrayList<>();
+        }
+        gameList.add(game);
     }
 
-    public List<Category> getCategory() {
-        return category;
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
-    public void setCategory(List<Category> category) {
-        this.category = category;
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
     }
 
+    public void addCategoryToList(Category category) {
+        if (categoryList == null) {
+            categoryList = new ArrayList<>();
+        }
+        categoryList.add(category);
+    }
+
+    public static class Builder {
+        private Genre genre;
+
+        public Builder create() {
+            genre = new Genre();
+            return this;
+        }
+
+        public Builder withName(String name) {
+            genre.setName(name);
+            return this;
+        }
+
+        public Builder withGameList(List<Game> gameList) {
+
+            gameList.stream().forEach(game -> {
+                genre.addGameToList(game);
+
+            });
+            return this;
+        }
+
+        public Builder withCategoryList(List<Category> categoryList) {
+            categoryList.stream().forEach(genre::addCategoryToList);
+            return this;
+        }
+
+
+        public Genre build() {
+            return genre;
+        }
+    }
 
 }

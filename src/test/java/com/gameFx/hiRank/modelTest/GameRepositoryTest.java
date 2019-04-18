@@ -51,7 +51,7 @@ public class GameRepositoryTest {
         game.setName(GAME_NAME);
         Game savedGame = entityManager.persistAndFlush(game);
 
-        assertTrue(savedGame.getGameId()!=null);
+        assertTrue(savedGame.getGameId() != null);
         assertThat(savedGame.getName(), equalTo(GAME_NAME));
     }
 
@@ -64,42 +64,42 @@ public class GameRepositoryTest {
         Game savedGame = entityManager.persistAndFlush(game);
         Rank savedRank = savedGame.getRank();
 
-        assertTrue(savedRank.getId()!=null);
+        assertTrue(savedRank.getId() != null);
         assertThat(savedRank.getLevel(), equalTo(RANK_LEVEL));
         assertThat(savedRank.getRankFormat(), equalTo(RankFormat.ZERO_TO_TEN));
     }
 
     @Test
-    public void setGenreAndPersistGame_shouldPersist(){
-        genre.setCategory(Arrays.asList(new Category()));
+    public void setGenreAndPersistGame_shouldPersist() {
+        genre.setCategoryList(Arrays.asList(new Category()));
         genre.setName(GENRE_NAME);
-        game.setGenre(Arrays.asList(genre));
+        game.setGenreList(Arrays.asList(genre));
 
         Game savedGame = entityManager.persistAndFlush(game);
-        Genre savedGenre = savedGame.getGenre()
+        Genre savedGenre = savedGame.getGenreList()
                 .stream()
                 .findAny()
                 .orElse(new Genre());
 
         assertThat(savedGenre.getName(), equalTo(GENRE_NAME));
-        assertTrue(savedGenre.getCategory() != null);
+        assertTrue(savedGenre.getCategoryList() != null);
     }
 
     @Test
-    public void setCategoryAndPersistGame_shouldPersist(){
+    public void setCategoryAndPersistGame_shouldPersist() {
         category.setName(CATEGORY_NAME);
         category.setGenre(genre);
 
-        genre.setCategory(Arrays.asList(category));
-        game.setGenre(Arrays.asList(genre));
+        genre.setCategoryList(Arrays.asList(category));
+        game.setGenreList(Arrays.asList(genre));
 
         Game savedGame = entityManager.persistAndFlush(game);
 
-        List<Category> savedCategoryList = savedGame.getGenre()
+        List<Category> savedCategoryList = savedGame.getGenreList()
                 .stream()
                 .findAny()
                 .orElse(new Genre())
-                .getCategory();
+                .getCategoryList();
 
         Category savedCategory = savedCategoryList
                 .stream()

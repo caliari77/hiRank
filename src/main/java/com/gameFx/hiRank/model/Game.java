@@ -2,6 +2,7 @@ package com.gameFx.hiRank.model;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,15 +12,15 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long gameId;
     private String name;
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Rank rank;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "genreId",
             insertable = false,
             updatable = false,
             unique = true)
-    private List<Genre> genre;
+    private List<Genre> genreList;
 
 
     public Long getGameId() {
@@ -46,12 +47,19 @@ public class Game {
         this.rank = rank;
     }
 
-    public List<Genre> getGenre() {
-        return genre;
+    public List<Genre> getGenreList() {
+        return genreList;
     }
 
-    public void setGenre(List<Genre> genre) {
-        this.genre = genre;
+    public void setGenreList(List<Genre> genreList) {
+        this.genreList = genreList;
+    }
+
+    public void addGenreToList(Genre genre) {
+        if (genreList == null) {
+            genreList = new ArrayList();
+        }
+        genreList.add(genre);
     }
 
     @Override
@@ -59,32 +67,34 @@ public class Game {
         return String.format("Game: {0}   rank: {1}", name, rank.getLevel());
     }
 
-    public static class GameBuilder{
+    public static class GameBuilder {
         private Game game;
 
-        public GameBuilder create(){
+        public GameBuilder create() {
             game = new Game();
             return this;
         }
 
-        public GameBuilder withName(String name){
+        public GameBuilder withName(String name) {
             game.setName(name);
             return this;
         }
 
-        public GameBuilder withRank(Rank rank){
+        public GameBuilder withRank(Rank rank) {
             game.setRank(rank);
             return this;
         }
 
-        public GameBuilder withGenre(List<Genre> genre){
-            game.setGenre(genre);
-            genre.stream().forEach(g -> g.addGameToList(game));
+        public GameBuilder withGenre(List<Genre> genreList) {
+            genreList.stream().forEach(genre -> {
+                game.addGenreToList(genre);
+                genre.addGameToList(game);
+            });
             return this;
         }
 
-        public Game build(){
-            return this.game;
+        public Game build() {
+            return game;
         }
 
     }
