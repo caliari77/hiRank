@@ -25,6 +25,7 @@ public class HibernateConf {
         dataSource.setUrl(APPLICATION_URL);
         dataSource.setUsername(DB_USER);
         dataSource.setPassword(DB_PASSWORD);
+
         return dataSource;
     }
 
@@ -38,7 +39,6 @@ public class HibernateConf {
         factory.setPackagesToScan(ENTITY_PACKAGE);
         factory.setDataSource(dataSource());
         factory.afterPropertiesSet();
-
         return factory.getObject();
     }
 
