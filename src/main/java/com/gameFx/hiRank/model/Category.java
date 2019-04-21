@@ -14,6 +14,13 @@ public class Category {
     @JoinColumn(name = "genreId")
     private Genre genre;
 
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return categoryId;
     }
@@ -38,25 +45,28 @@ public class Category {
         this.genre = genre;
     }
 
-    public class Builder{
+    public static class Builder {
         private Category category;
 
-        public Builder create(){
+        public Builder create() {
             category = new Category();
             return this;
         }
 
-        public Builder withName(String name){
+        public Builder withName(String name) {
             category.setName(name);
             return this;
         }
 
-        public Builder withGenre(Genre genre){
+        public Builder withGenre(Genre genre) {
             category.setGenre(genre);
 
             return this;
         }
 
+        public Category build() {
+            return category;
+        }
 
     }
 

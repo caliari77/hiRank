@@ -1,24 +1,36 @@
 package com.gameFx.hiRank.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "Genre")
 public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "genreId")
     private Long genreId;
+    @Column(name = "name", unique = true)
     private String name;
 
     @ManyToMany
-    @JoinColumn(name = "gameId")
+    //@JoinColumn(name = "gameId")
+    @JoinTable(name = "relatedGenres",
+            inverseJoinColumns = @JoinColumn(name = "gameId", referencedColumnName = "gameId"),
+            joinColumns = @JoinColumn(name = "genreId", referencedColumnName = "genreId")
+    )
     private List<Game> gameList;
 
     @OneToMany(mappedBy = "categoryId")
     private List<Category> categoryList;
+
+    public Genre() {
+    }
+
+    public Genre(String name) {
+        this.name = name;
+    }
 
 
     public String getName() {
@@ -41,12 +53,6 @@ public class Genre {
         return gameList;
     }
 
-    public void addGameToList(Game game) {
-        if (gameList == null) {
-            gameList = new ArrayList<>();
-        }
-        gameList.add(game);
-    }
 
     public List<Category> getCategoryList() {
         return categoryList;
@@ -56,12 +62,6 @@ public class Genre {
         this.categoryList = categoryList;
     }
 
-    public void addCategoryToList(Category category) {
-        if (categoryList == null) {
-            categoryList = new ArrayList<>();
-        }
-        categoryList.add(category);
-    }
 
     public static class Builder {
         private Genre genre;
@@ -76,20 +76,10 @@ public class Genre {
             return this;
         }
 
-        public Builder withGameList(List<Game> gameList) {
-
-            gameList.stream().forEach(game -> {
-                genre.addGameToList(game);
-
-            });
-            return this;
-        }
-
         public Builder withCategoryList(List<Category> categoryList) {
-            categoryList.stream().forEach(genre::addCategoryToList);
+            genre.setCategoryList(categoryList);
             return this;
         }
-
 
         public Genre build() {
             return genre;

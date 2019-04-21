@@ -2,24 +2,26 @@ package com.gameFx.hiRank.model;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "Game")
 public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "gameId")
     private Long gameId;
     private String name;
     @OneToOne(cascade = CascadeType.ALL)
     private Rank rank;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "genreId",
-            insertable = false,
-            updatable = false,
-            unique = true)
+    //@JoinColumn(name = "genreId")
+    @JoinTable(name = "relatedGenres",
+            joinColumns = @JoinColumn(name = "gameId", referencedColumnName = "gameId"),
+            inverseJoinColumns = @JoinColumn(name = "genreId", referencedColumnName = "genreId")
+    )
     private List<Genre> genreList;
 
 
@@ -55,13 +57,6 @@ public class Game {
         this.genreList = genreList;
     }
 
-    public void addGenreToList(Genre genre) {
-        if (genreList == null) {
-            genreList = new ArrayList();
-        }
-        genreList.add(genre);
-    }
-
     @Override
     public String toString() {
         return String.format("Game: {0}   rank: {1}", name, rank.getLevel());
@@ -86,10 +81,7 @@ public class Game {
         }
 
         public GameBuilder withGenre(List<Genre> genreList) {
-            genreList.stream().forEach(genre -> {
-                game.addGenreToList(genre);
-                genre.addGameToList(game);
-            });
+            game.setGenreList(genreList);
             return this;
         }
 

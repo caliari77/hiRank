@@ -13,30 +13,30 @@ import java.util.Arrays;
 
 public class ExportDataPopulatorJson {
     public static void main(String args[]) {
-        Rank rank = new Rank();
 
+        Category category1 = new Category("action");
+        Category category2 = new Category("sandbox");
 
-        Category category1 = new Category();
-        category1.setName("action");
-        Category category2 = new Category();
-        category2.setName("open world");
+        Genre genre1 = new Genre("First-person-shooter");
+        Genre genre2 = new Genre("Classic");
 
+        genre1.setCategoryList(Arrays.asList(category1, category2));
 
-        rank.setLevel(10);
-        rank.setRankFormat(RankFormat.ZERO_TO_TEN);
-
-        Game game = new Game.GameBuilder()
+        Game doom = new Game.GameBuilder()
                 .create()
                 .withName("Doom")
-                .withGenre(Arrays.asList(new Genre.Builder()
-                        .create()
-                        .withName("First-person-shooter")
-                        .withCategoryList(Arrays.asList(category1, category2))
-                        .build()))
-                .withRank(rank)
+                .withGenre(Arrays.asList(genre1, genre2))
+                .withRank(new Rank(10, RankFormat.ZERO_TO_TEN))
                 .build();
 
-        writeFile(new Gson().toJson(Arrays.asList(game)));
+        Game halo = new Game.GameBuilder()
+                .create()
+                .withName("Halo")
+                .withGenre(Arrays.asList(genre1))
+                .withRank(new Rank(8, RankFormat.ZERO_TO_TEN))
+                .build();
+
+        writeFile(new Gson().toJson(Arrays.asList(doom, halo)));
     }
 
     private static void writeFile(String jsonAsString) {
