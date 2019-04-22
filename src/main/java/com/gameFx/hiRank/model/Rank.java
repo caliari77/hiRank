@@ -13,6 +13,8 @@ public class Rank {
     @Enumerated(EnumType.STRING)
     private RankFormat rankFormat;
 
+    public Rank(){};
+
     public Rank(Integer level, RankFormat rankFormat) {
         this.level = level;
         rankFormat = rankFormat;

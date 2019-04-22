@@ -23,14 +23,12 @@ public class ExportDataPopulatorJson {
         genre1.setCategoryList(Arrays.asList(category1, category2));
 
         Game doom = new Game.GameBuilder()
-                .create()
                 .withName("Doom")
                 .withGenre(Arrays.asList(genre1, genre2))
                 .withRank(new Rank(10, RankFormat.ZERO_TO_TEN))
                 .build();
 
         Game halo = new Game.GameBuilder()
-                .create()
                 .withName("Halo")
                 .withGenre(Arrays.asList(genre1))
                 .withRank(new Rank(8, RankFormat.ZERO_TO_TEN))

@@ -17,7 +17,6 @@ public class Game {
     private Rank rank;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "genreId")
     @JoinTable(name = "relatedGenres",
             joinColumns = @JoinColumn(name = "gameId", referencedColumnName = "gameId"),
             inverseJoinColumns = @JoinColumn(name = "genreId", referencedColumnName = "genreId")
@@ -63,12 +62,8 @@ public class Game {
     }
 
     public static class GameBuilder {
-        private Game game;
+        private Game game = new Game();
 
-        public GameBuilder create() {
-            game = new Game();
-            return this;
-        }
 
         public GameBuilder withName(String name) {
             game.setName(name);
@@ -86,7 +81,9 @@ public class Game {
         }
 
         public Game build() {
-            return game;
+            Game completedGame = game;
+
+            return completedGame;
         }
 
     }
