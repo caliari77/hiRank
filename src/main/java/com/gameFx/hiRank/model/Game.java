@@ -1,6 +1,8 @@
 package com.gameFx.hiRank.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class Game {
     @OneToOne(cascade = CascadeType.ALL)
     private Rank rank;
 
+    @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "relatedGenres",
             joinColumns = @JoinColumn(name = "gameId", referencedColumnName = "gameId"),

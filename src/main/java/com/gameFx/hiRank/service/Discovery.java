@@ -12,4 +12,12 @@ public interface Discovery {
      * @return List of games as String
      */
     List<Game> getAllGames();
+
+    /**
+     * Find game name by name
+     *
+     * @param gameName Game name
+     * @return a List of similar games
+     */
+    List<Game> findGameByName(String gameName);
 }

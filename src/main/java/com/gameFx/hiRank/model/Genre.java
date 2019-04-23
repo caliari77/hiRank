@@ -1,5 +1,7 @@
 package com.gameFx.hiRank.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,8 +16,8 @@ public class Genre {
     @Column(name = "name", unique = true)
     private String name;
 
+    @JsonBackReference
     @ManyToMany
-    //@JoinColumn(name = "gameId")
     @JoinTable(name = "relatedGenres",
             inverseJoinColumns = @JoinColumn(name = "gameId", referencedColumnName = "gameId"),
             joinColumns = @JoinColumn(name = "genreId", referencedColumnName = "genreId")
