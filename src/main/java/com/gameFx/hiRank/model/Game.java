@@ -2,18 +2,22 @@ package com.gameFx.hiRank.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "Game")
+@Indexed
 public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "gameId")
     private Long gameId;
+    @Field
     private String name;
     @OneToOne(cascade = CascadeType.ALL)
     private Rank rank;
