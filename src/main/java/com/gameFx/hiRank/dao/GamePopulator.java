@@ -1,21 +1,15 @@
 package com.gameFx.hiRank.dao;
 
 import com.gameFx.hiRank.bean.GameRepository;
+import com.gameFx.hiRank.io.FileOperations;
+import com.gameFx.hiRank.io.JsonOperations;
 import com.gameFx.hiRank.model.Game;
-import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @Configurable
@@ -27,27 +21,16 @@ public class GamePopulator implements DataPopulator {
     @Autowired
     private GameRepository gr;
 
+    private JsonOperations jsonOperations = new FileOperations();
+
     private String FILE_NAME_FOR_GAMELIST = "./oldButGold.json";
 
     @Override
     @Transactional
     public void populate() {
-        loadGameFromJson().stream().forEach(gr::save);
-    }
-
-    private List<Game> loadGameFromJson() {
-        return Arrays.asList(new Gson().fromJson(readFile(FILE_NAME_FOR_GAMELIST), Game[].class));
-    }
-
-    private String readFile(String fileName) {
-        String data = "";
-
-        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            data = stream.collect(Collectors.joining());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
+        jsonOperations.readJsonToPojoList(FILE_NAME_FOR_GAMELIST, Game.class)
+                .stream()
+                .forEach(gr::save);
     }
 }
 

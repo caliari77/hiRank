@@ -1,18 +1,16 @@
 package com.gameFx.hiRank.dao;
 
+import com.gameFx.hiRank.io.FileOperations;
+import com.gameFx.hiRank.io.JsonOperations;
 import com.gameFx.hiRank.model.*;
-import com.google.gson.Gson;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
-
 public class ExportDataPopulatorJson {
+    private static final String EXPORT_FILE_NAME = "./oldButGold.json";
+
     public static void main(String args[]) {
+        JsonOperations jsonOperations = new FileOperations();
 
         Category category1 = new Category("action");
         Category category2 = new Category("sandbox");
@@ -34,17 +32,6 @@ public class ExportDataPopulatorJson {
                 .withRank(new Rank(8, RankFormat.ZERO_TO_TEN))
                 .build();
 
-        writeFile(new Gson().toJson(Arrays.asList(doom, halo)));
+        jsonOperations.writePojoToJson(EXPORT_FILE_NAME, Arrays.asList(doom, halo));
     }
-
-    private static void writeFile(String jsonAsString) {
-        Path path = Paths.get("./oldButGold.json");
-
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write(jsonAsString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
