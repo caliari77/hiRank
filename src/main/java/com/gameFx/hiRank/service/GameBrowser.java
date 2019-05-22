@@ -23,6 +23,7 @@ public class GameBrowser implements Discovery {
         return gameRepository.findAll();
     }
 
+
     @Override
     public List<Game> findGameByName(String gameName) {
         return similarSearch.search(gameName);
