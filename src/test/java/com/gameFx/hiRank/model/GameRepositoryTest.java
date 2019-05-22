@@ -23,18 +23,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @Transactional
 public class GameRepositoryTest {
 
-    private static final String GAME_NAME = "gameName";
-    private static final String GENRE_NAME = "genreName";
-    private static final String CATEGORY_NAME = "categoryName";
-    private static final Integer RANK_LEVEL = 10;
-
-
     @Autowired
     private TestEntityManager entityManager;
     private Game game;
     private Rank rank;
     private Genre genre;
     private Category category;
+
+    private static final String GAME_NAME = "gameName";
+    private static final String GENRE_NAME = "genreName";
+    private static final String CATEGORY_NAME = "categoryName";
+    private static final Integer RANK_LEVEL = 10;
+
 
     @Before
     public void setup() {
