@@ -5,7 +5,6 @@ import com.gameFx.hiRank.io.FileOperations;
 import com.gameFx.hiRank.io.JsonOperations;
 import com.gameFx.hiRank.model.Game;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +16,11 @@ import javax.transaction.Transactional;
 public class GamePopulator implements DataPopulator {
 
     Logger log = Logger.getLogger(GamePopulator.class);
+    private final GameRepository gr;
 
-    @Autowired
-    private GameRepository gr;
+    public GamePopulator(GameRepository gr) {
+        this.gr = gr;
+    }
 
     private JsonOperations jsonOperations = new FileOperations();
 

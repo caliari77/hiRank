@@ -10,12 +10,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class,
@@ -49,7 +49,7 @@ public class GameRepositoryTest {
         game.setName(GAME_NAME);
         Game savedGame = entityManager.persistAndFlush(game);
 
-        assertTrue(savedGame.getGameId() != null);
+        assertNotNull(savedGame.getGameId());
         assertThat(savedGame.getName(), equalTo(GAME_NAME));
     }
 
@@ -62,16 +62,16 @@ public class GameRepositoryTest {
         Game savedGame = entityManager.persistAndFlush(game);
         Rank savedRank = savedGame.getRank();
 
-        assertTrue(savedRank.getId() != null);
+        assertNotNull(savedRank.getId());
         assertThat(savedRank.getLevel(), equalTo(RANK_LEVEL));
         assertThat(savedRank.getRankFormat(), equalTo(RankFormat.ZERO_TO_TEN));
     }
 
     @Test
     public void setGenreAndPersistGame_shouldPersist() {
-        genre.setCategoryList(Arrays.asList(new Category()));
+        genre.setCategoryList(Collections.singletonList(new Category()));
         genre.setName(GENRE_NAME);
-        game.setGenreList(Arrays.asList(genre));
+        game.setGenreList(Collections.singletonList(genre));
 
         Game savedGame = entityManager.persistAndFlush(game);
         Genre savedGenre = savedGame.getGenreList()
@@ -79,8 +79,8 @@ public class GameRepositoryTest {
                 .findAny()
                 .orElse(new Genre());
 
+        assertNotNull(savedGenre.getCategoryList());
         assertThat(savedGenre.getName(), equalTo(GENRE_NAME));
-        assertTrue(savedGenre.getCategoryList() != null);
     }
 
     @Test
@@ -88,8 +88,8 @@ public class GameRepositoryTest {
         category.setName(CATEGORY_NAME);
         category.setGenre(genre);
 
-        genre.setCategoryList(Arrays.asList(category));
-        game.setGenreList(Arrays.asList(genre));
+        genre.setCategoryList(Collections.singletonList(category));
+        game.setGenreList(Collections.singletonList(genre));
 
         Game savedGame = entityManager.persistAndFlush(game);
 
@@ -104,7 +104,7 @@ public class GameRepositoryTest {
                 .findAny()
                 .orElse(new Category());
 
-        assertTrue(savedCategory != null);
+        assertNotNull(savedCategory);
         assertThat(savedCategory.getName(), equalTo(CATEGORY_NAME));
     }
 

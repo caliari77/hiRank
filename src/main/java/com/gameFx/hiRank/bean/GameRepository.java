@@ -18,4 +18,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
      * @return Game
      */
     Optional<Game> findAllByName(String gameName);
+
+
 }
